@@ -38,7 +38,7 @@ const Search = () => {
       }}
     >
       <Box>
-        <Searching aria-setsize={"medium"}>
+        <Searching>
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
