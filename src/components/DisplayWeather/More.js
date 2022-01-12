@@ -1,14 +1,21 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
-import SettingsIcon from "@mui/icons-material/Settings";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 
-const Settings = () => {
+const More = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const handleMenuItemClick = (event) => {
+    const { myValue } = event.currentTarget.dataset;
+    props.setMoreState(myValue);
+    setAnchorEl(null);
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -24,7 +31,7 @@ const Settings = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
       >
-        <SettingsIcon />
+        <MoreHorizIcon />
       </IconButton>
       <Menu
         id="fade-menu"
@@ -36,12 +43,23 @@ const Settings = () => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem style={{ color: "#000" }} onClick={handleClose}>
-          Coming soon...
+        <MenuItem
+          style={{ color: "#000" }}
+          data-my-value={1}
+          onClick={handleMenuItemClick}
+        >
+          Temperature
+        </MenuItem>
+        <MenuItem
+          style={{ color: "#000" }}
+          data-my-value={2}
+          onClick={handleMenuItemClick}
+        >
+          Time
         </MenuItem>
       </Menu>
     </div>
   );
 };
 
-export default Settings;
+export default More;

@@ -1,15 +1,27 @@
 import React from "react";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 import testDayImage from "../../asset/images/weatherIcons/sun/6.png";
 import Settings from "./Settings";
+import More from "./More";
+
+function formatTime(s) {
+  return new Date(s * 1e3).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
 
 const DisplayWeather = (props) => {
   const isDay = props.city.isDay;
+  const [moreMenuValue, setMoreMenuValue] = React.useState("1");
+
+  const formattedSunrise = formatTime(props.city.sunrise);
+  const formattedSunset = formatTime(props.city.sunset);
+  const formattedAccuracy = formatTime(props.city.dt);
 
   return (
     <div>
@@ -35,9 +47,7 @@ const DisplayWeather = (props) => {
             <Typography>{isDay ? "Day" : "Night"}</Typography>
           </Box>
           <Box>
-            <IconButton sx={{ color: "white" }}>
-              <MoreHorizIcon />
-            </IconButton>
+            <More setMoreState={setMoreMenuValue} />
           </Box>
           <Box>
             <Settings />
@@ -70,7 +80,6 @@ const DisplayWeather = (props) => {
               variant="h2"
             >
               {Math.round(props.city.temp)}
-
               <sup style={{ opacity: "0.5" }}>&deg;</sup>
             </Typography>
             <Typography variant="h5">
@@ -90,26 +99,13 @@ const DisplayWeather = (props) => {
           sx={{ px: 2 }}
         >
           <Stack>
-            <Box>
-              <Typography sx={{ opacity: "0.75", fontSize: "0.85rem" }}>
-                Highest
-              </Typography>
-            </Box>
-            <Box textAlign={"right"}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
-                variant="caption"
-              >
-                {Math.round(props.city.maxTemp)}
-                <sup style={{ opacity: "0.5" }}>&deg;</sup>
-              </Typography>
-              {/* <Typography variant="caption">km</Typography> */}
-            </Box>
-          </Stack>
-          <Stack>
-            <Box>
-              <Typography sx={{ opacity: "0.75", fontSize: "0.85rem" }}>
-                Lowest
+            <Box textAlign={"center"}>
+              <Typography sx={{ opacity: "0.75", fontSize: "0.95rem" }}>
+                {moreMenuValue === "1"
+                  ? "Highest"
+                  : moreMenuValue === "2"
+                  ? "Sunrise"
+                  : "None"}
               </Typography>
             </Box>
             <Box textAlign={"center"}>
@@ -117,27 +113,74 @@ const DisplayWeather = (props) => {
                 sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
                 variant="caption"
               >
-                {Math.round(props.city.minTemp)}
-                <sup style={{ opacity: "0.5" }}>&deg;</sup>
+                {moreMenuValue === "1" ? (
+                  <div>
+                    {Math.round(props.city.maxTemp)}
+
+                    <sup style={{ opacity: "0.5" }}>&deg;</sup>
+                  </div>
+                ) : moreMenuValue === "2" ? (
+                  formattedSunrise
+                ) : (
+                  "None"
+                )}
               </Typography>
-              {/* <Typography variant="caption">%</Typography> */}
             </Box>
           </Stack>
           <Stack>
-            <Box>
-              <Typography sx={{ opacity: "0.75", fontSize: "0.85rem" }}>
-                Feels Like
+            <Box textAlign={"center"}>
+              <Typography sx={{ opacity: "0.75", fontSize: "0.95rem" }}>
+                {moreMenuValue === "1"
+                  ? "Lowest"
+                  : moreMenuValue === "2"
+                  ? "Sunset"
+                  : "None"}
               </Typography>
             </Box>
-            <Box textAlign={"left"}>
+            <Box textAlign={"center"}>
               <Typography
                 sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
                 variant="caption"
               >
-                {Math.round(props.city.feelsLike)}
-                <sup style={{ opacity: "0.5" }}>&deg;</sup>
+                {moreMenuValue === "1" ? (
+                  <div>
+                    {Math.round(props.city.minTemp)}
+                    <sup style={{ opacity: "0.5" }}>&deg;</sup>
+                  </div>
+                ) : moreMenuValue === "2" ? (
+                  formattedSunset
+                ) : (
+                  "None"
+                )}
               </Typography>
-              {/* <Typography variant="caption">%</Typography> */}
+            </Box>
+          </Stack>
+          <Stack>
+            <Box textAlign={"center"}>
+              <Typography sx={{ opacity: "0.75", fontSize: "0.95rem" }}>
+                {moreMenuValue === "1"
+                  ? "Feels Like"
+                  : moreMenuValue === "2"
+                  ? "Accuracy"
+                  : "None"}
+              </Typography>
+            </Box>
+            <Box textAlign={"center"}>
+              <Typography
+                sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
+                variant="caption"
+              >
+                {moreMenuValue === "1" ? (
+                  <div>
+                    {Math.round(props.city.feelsLike)}
+                    <sup style={{ opacity: "0.5" }}>&deg;</sup>
+                  </div>
+                ) : moreMenuValue === "2" ? (
+                  formattedAccuracy
+                ) : (
+                  "None"
+                )}
+              </Typography>
             </Box>
           </Stack>
         </Stack>

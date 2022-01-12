@@ -30,7 +30,6 @@ export function whichImageToDisplay(weatherID, day) {
 
     // Group 2xx: Thunderstorm
     if (firstChar === "2") {
-      console.log("Thunder");
       if (day) {
         return thunderDay;
       } else {
@@ -39,7 +38,6 @@ export function whichImageToDisplay(weatherID, day) {
     }
     // Group 3xx: Drizzle
     else if (firstChar === "3") {
-      console.log("Drizzle");
       if (day) {
         return drizzleDay;
       } else {
@@ -48,7 +46,6 @@ export function whichImageToDisplay(weatherID, day) {
     }
     // Group 5xx: Rain
     else if (firstChar === "5") {
-      console.log("Rain");
       if (day) {
         return rainDay;
       } else {
@@ -57,7 +54,6 @@ export function whichImageToDisplay(weatherID, day) {
     }
     // Group 6xx: Snow
     else if (firstChar === "6") {
-      console.log("Snow");
       if (day) {
         return snowDay;
       } else {
@@ -66,7 +62,6 @@ export function whichImageToDisplay(weatherID, day) {
     }
     // Group 7xx: Atmosphere
     else if (firstChar === "7") {
-      console.log("Atmosphere");
       if (day) {
         return atmoshphereDay;
       } else {
@@ -76,23 +71,19 @@ export function whichImageToDisplay(weatherID, day) {
     // Group 800: Clear
     else if (id === "800") {
       if (day) {
-        console.log("Clear Day");
         return clearDay;
       } else {
-        console.log("Clear Night");
         return clearNight;
       }
     }
     // Group 80x: Clouds
     else if (firstChar === "8") {
-      console.log("Clouds");
       if (day) {
         return cloudDay;
       } else {
         return cloudNight;
       }
     } else {
-      console.log("This condition does not exist");
       if (day) {
         return defaultDay;
       } else {
@@ -100,7 +91,6 @@ export function whichImageToDisplay(weatherID, day) {
       }
     }
   } else {
-    console.log("INVALID");
     if (day) {
       return defaultDay;
     } else {

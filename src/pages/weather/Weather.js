@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import DisplayWeather from "../../components/DisplayWeather/DisplayWeather";
 // import Search from "../../components/DisplayWeather/Search";
 import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -33,8 +34,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// console.log(whichImageToDisplay("800", false));
-
 function checkIfDayTime(rise, set) {
   let currentTime = new Date().getTime();
   if (currentTime >= rise * 1000 && currentTime < set * 1000) {
@@ -50,12 +49,9 @@ const Weather = () => {
   const search = async (e) => {
     if (e.key === "Enter") {
       const data = await fetchWeather(query);
-      // setWeather(data);
-
-      // console.log(data.weather[0].id);
-      // console.log(data.weather.weather[1].id);
-      // console.log(JSON.stringify(data.weather, null, 4));
       const dayTime = checkIfDayTime(data.sys.sunrise, data.sys.sunset);
+
+      // console.log(JSON.stringify(data.main, null, 4));
 
       setQuery("");
       setWeatherComponent([
@@ -70,8 +66,14 @@ const Weather = () => {
           minTemp: data.main.temp_min,
           maxTemp: data.main.temp_max,
           weatherDescription: data.weather[0].description,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+          timezone: data.timezone,
+          dt: data.dt,
         },
       ]);
+    } else {
+      console.log("Probably a onclick");
     }
   };
 
@@ -104,36 +106,23 @@ const Weather = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyPress={search}
               />
-              <IconButton
+              {/* <IconButton
                 type="submit"
                 sx={{ color: "white" }}
+                // value={query}
+                // onChange={(e) => setQuery(e.target.value)}
+                // // onClick={search}
+                // onClick={() => {
+                //   search();
+                // }}
                 aria-label="search"
               >
                 <SearchIcon />
-              </IconButton>
+              </IconButton> */}
             </Searching>
+            <Typography>HowTo: [cityName], [cityName, countryCode]</Typography>
           </Box>
         </Box>
-
-        {/* {weather.main && (
-          <div>
-            <h2>
-              <span>{weather.name}</span>
-              <sup>{weather.sys.country}</sup>
-            </h2>
-            <div>
-              {Math.round(weather.main.temp)}
-              <sup>&deg;C</sup>
-            </div>
-            <div>
-              <img
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                alt={weather.weather[0].description}
-              />
-              <p>{weather.weather[0].description}</p>
-            </div>
-          </div>
-        )} */}
 
         {weatherComponent.map((item, i) => (
           <Box key={i}>
